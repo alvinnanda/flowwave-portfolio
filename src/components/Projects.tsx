@@ -52,19 +52,29 @@ export default function Projects() {
     const ctx = gsap.context(() => {
       const cards = cardsRef.current?.children || [];
 
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-        opacity: 0,
-        y: 60,
-        rotation: 5,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+      // Only animate if elements exist
+      if (cards.length > 0) {
+        gsap.fromTo(cards,
+          {
+            opacity: 0,
+            y: 60,
+            rotation: 5,
+          },
+          {
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+            opacity: 1,
+            y: 0,
+            rotation: 0,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power3.out",
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();

@@ -10,17 +10,25 @@ export default function Footer() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(footerRef.current, {
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 90%",
-          toggleActions: "play none none reverse",
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+      if (footerRef.current) {
+        gsap.fromTo(footerRef.current,
+          {
+            opacity: 0,
+            y: 30,
+          },
+          {
+            scrollTrigger: {
+              trigger: footerRef.current,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          }
+        );
+      }
     }, footerRef);
 
     return () => ctx.revert();
