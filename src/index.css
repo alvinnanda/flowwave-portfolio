@@ -17,19 +17,19 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Pink primary color from design specs */
-    --primary: 330 81% 49%;
+    /* Brown primary color from design specs */
+    --primary: 27 57% 25%;
     --primary-foreground: 0 0% 100%;
 
-    /* Dark gray secondary */
-    --secondary: 217 19% 19%;
-    --secondary-foreground: 0 0% 100%;
+    /* Warm beige secondary */
+    --secondary: 36 49% 82%;
+    --secondary-foreground: 27 57% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 36 40% 90%;
+    --muted-foreground: 27 30% 40%;
 
-    /* Dark pink accent */
-    --accent: 330 73% 34%;
+    /* Warm brown accent */
+    --accent: 25 58% 32%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -37,15 +37,15 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 330 81% 49%;
+    --ring: 27 57% 25%;
 
     --radius: 0.75rem;
 
-    /* Custom gradient colors */
-    --gradient-pink-start: 330 81% 49%;
-    --gradient-pink-end: 270 73% 34%;
-    --gradient-blue-start: 221 83% 53%;
-    --gradient-blue-end: 270 73% 34%;
+    /* Custom gradient colors - warm brown to beige */
+    --gradient-pink-start: 27 57% 25%;
+    --gradient-pink-end: 36 49% 82%;
+    --gradient-blue-start: 25 58% 32%;
+    --gradient-blue-end: 36 49% 82%;
 
     /* Glassmorphism */
     --glass-bg: 0 0% 100%;
@@ -71,16 +71,16 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 330 81% 49%;
+    --primary: 27 57% 35%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 19% 19%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 36 49% 82%;
+    --secondary-foreground: 27 57% 25%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 27 20% 25%;
+    --muted-foreground: 36 30% 70%;
 
-    --accent: 330 73% 34%;
+    --accent: 25 58% 42%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -113,7 +113,10 @@ All colors MUST be HSL.
 
   /* Gradient text utility */
   .gradient-text {
-    @apply bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent;
+    background: linear-gradient(to right, hsl(var(--gradient-pink-start)), hsl(var(--gradient-pink-end)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   /* Glass card utility */
