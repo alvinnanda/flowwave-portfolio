@@ -61,45 +61,66 @@ export default function Experience() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Animate timeline line
-      gsap.from(lineRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-        scaleY: 0,
-        transformOrigin: "top",
-        duration: 1.5,
-        ease: "power2.out",
-      });
+      if (lineRef.current) {
+        gsap.fromTo(lineRef.current,
+          {
+            scaleY: 0,
+            transformOrigin: "top",
+          },
+          {
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+            scaleY: 1,
+            duration: 1.5,
+            ease: "power2.out",
+          }
+        );
+      }
 
       // Animate dots with stagger
-      gsap.from(dotsRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-        scale: 0,
-        stagger: 0.2,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-      });
+      const validDots = dotsRef.current.filter(dot => dot !== null);
+      if (validDots.length > 0) {
+        gsap.fromTo(validDots,
+          {
+            scale: 0,
+          },
+          {
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+            scale: 1,
+            stagger: 0.2,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+          }
+        );
+      }
 
       // Animate cards alternating from left/right
       cardsRef.current.forEach((card, index) => {
         if (card) {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
+          gsap.fromTo(card,
+            {
+              opacity: 0,
+              x: index % 2 === 0 ? -100 : 100,
             },
-            opacity: 0,
-            x: index % 2 === 0 ? -100 : 100,
-            duration: 0.8,
-            ease: "power3.out",
-          });
+            {
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            }
+          );
         }
       });
     }, sectionRef);

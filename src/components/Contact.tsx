@@ -40,18 +40,27 @@ export default function Contact() {
     const ctx = gsap.context(() => {
       const cards = cardsRef.current?.children || [];
 
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        opacity: 0,
-        y: 40,
-        stagger: 0.15,
-        duration: 0.6,
-        ease: "power3.out",
-      });
+      // Only animate if elements exist
+      if (cards.length > 0) {
+        gsap.fromTo(cards,
+          {
+            opacity: 0,
+            y: 40,
+          },
+          {
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            duration: 0.6,
+            ease: "power3.out",
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
