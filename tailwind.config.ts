@@ -58,6 +58,13 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      backgroundImage: {
+        'gradient-pink': 'linear-gradient(to right, hsl(var(--gradient-pink-start)), hsl(var(--gradient-pink-end)))',
+        'gradient-blue': 'linear-gradient(to right, hsl(var(--gradient-blue-start)), hsl(var(--gradient-blue-end)))',
+      },
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -84,6 +91,9 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "bounce-slow": "bounce 3s infinite",
+        "fade-in": "fade-in 0.8s ease-out",
+        "slide-up": "slide-up 0.6s ease-out",
       },
     },
   },
