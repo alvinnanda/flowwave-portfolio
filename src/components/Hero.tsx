@@ -26,12 +26,50 @@ export default function Hero() {
 
       // Title animation with split text effect
       if (titleRef.current) {
-        const chars = titleRef.current.textContent?.split("") || [];
-        titleRef.current.innerHTML = chars
-          .map((char) => `<span class="inline-block">${char === " " ? "&nbsp;" : char}</span>`)
-          .join("");
-
-        tl.from(titleRef.current.children, {
+        // Save the original HTML content with styles
+        const originalHTML = titleRef.current.innerHTML;
+        
+        // Create spans for each character while preserving the inner HTML structure
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = originalHTML;
+        
+        // Process each text node within the title
+        const processNode = (node: Node) => {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+            const text = node.textContent;
+            const parent = node.parentNode;
+            const span = document.createElement('span');
+            span.style.display = 'inline-block';
+            span.style.verticalAlign = 'top';
+            
+            // Create spans for each character
+            const charSpans = text.split('').map(char => {
+              const charSpan = document.createElement('span');
+              charSpan.className = 'inline-block';
+              charSpan.textContent = char === ' ' ? '\u00A0' : char;
+              return charSpan.outerHTML;
+            }).join('');
+            
+            span.innerHTML = charSpans;
+            parent?.replaceChild(span, node);
+            return Array.from(span.children);
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const element = node as HTMLElement;
+            if (element.children.length > 0) {
+              return Array.from(element.children).flatMap(processNode);
+            }
+          }
+          return [];
+        };
+        
+        // Process all child nodes
+        const allSpans = Array.from(tempDiv.childNodes).flatMap(processNode);
+        
+        // Update the title with the new HTML structure
+        titleRef.current.innerHTML = tempDiv.innerHTML;
+        
+        // Animate each character span
+        tl.from(allSpans, {
           opacity: 0,
           y: 50,
           rotationX: -90,
@@ -130,15 +168,15 @@ export default function Hero() {
           <div className="space-y-6">
             <h1
               ref={titleRef}
-              className="text-5xl lg:text-6xl font-bold leading-tight"
+              className="text-5xl lg:text-6xl font-bold leading-tight text-muted-foreground"
             >
-              Hi, I'm{" "}
-              <span className="gradient-text">Alvinnanda</span>
+              <span className="text-black dark:text-white">Hi, I'm</span>{" "}
+              <span className="text-muted-foreground">Alvinnanda</span>
             </h1>
             
             <p
               ref={subtitleRef}
-              className="text-xl md:text-2xl text-muted-foreground"
+              className="text-xl md:text-2xl"
             >
               A passionate Software Engineer crafting beautiful digital
               experiences with modern technologies.
@@ -172,16 +210,16 @@ export default function Hero() {
             </div>
           </div>
         </div>
-
+      </div>
         {/* Scroll Indicator */}
         <div
           ref={scrollRef}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-slow"
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
         >
           <span className="text-sm text-muted-foreground">Scroll to explore</span>
           <ChevronDown className="w-6 h-6 text-primary" />
         </div>
-      </div>
     </section>
   );
 }

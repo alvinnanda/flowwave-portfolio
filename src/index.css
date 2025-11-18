@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --secondary-foreground: 27 57% 25%;
 
     --muted: 36 40% 90%;
-    --muted-foreground: 27 30% 40%;
+    --muted-foreground: 23 59% 26%;
 
     /* Warm brown accent */
     --accent: 25 58% 32%;
@@ -42,10 +42,10 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Custom gradient colors - warm brown to beige */
-    --gradient-pink-start: 27 57% 25%;
-    --gradient-pink-end: 36 49% 82%;
+    --gradient-pink-start:  23 59% 26%;
+    --gradient-pink-end: 26 92% 45%;
     --gradient-blue-start: 25 58% 32%;
-    --gradient-blue-end: 36 49% 82%;
+    --gradient-blue-end:  26 92% 45%;
 
     /* Glassmorphism */
     --glass-bg: 0 0% 100%;

@@ -53,7 +53,7 @@ export default function Header() {
     const target = document.getElementById(targetId);
     if (target) {
       gsap.to(window, {
-        duration: 1,
+        duration: 0.1,
         scrollTo: { y: target, offsetY: 80 },
         ease: "power3.inOut",
       });

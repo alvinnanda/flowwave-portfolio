@@ -8,32 +8,32 @@ const skillsData = [
   {
     icon: "💻",
     category: "Frontend",
-    skills: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Svelte"],
+    skills: ["React", "TypeScript", "Vue.js", "Next.js", "Svelte"],
   },
   {
     icon: "⚙️",
     category: "Backend",
-    skills: ["Node.js", "Express", "NestJS", "GraphQL", "REST API"],
+    skills: ["PHP","Golang","Node.js", "Express", "NestJS", "REST API"],
   },
   {
     icon: "📱",
     category: "Mobile",
-    skills: ["React Native", "Flutter", "Android", "iOS"],
+    skills: ["React", "Flutter", "Android", "iOS"],
   },
   {
     icon: "🗄️",
     category: "Database",
-    skills: ["PostgreSQL", "MongoDB", "Redis", "Supabase"],
+    skills: ["PostgreSQL", "MongoDB", "Redis"],
   },
   {
     icon: "🛠️",
     category: "Tools",
-    skills: ["Git", "Docker", "CI/CD", "Vite", "Vercel"],
+    skills: ["Git", "VSCode", "Figma", "Postman", "Jira", "GitHub"],
   },
   {
     icon: "🎨",
     category: "Design",
-    skills: ["Figma", "GSAP", "Framer Motion", "UI/UX"],
+    skills: ["Figma", "Corel Draw"],
   },
 ];
 
@@ -75,7 +75,7 @@ export default function Skills() {
     <section
       id="skills"
       ref={sectionRef}
-      className="py-12 md:py-24 bg-gradient-to-b from-white to-gray-50"
+      className="py-12 md:py-24 bg-white"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
@@ -89,26 +89,47 @@ export default function Skills() {
 
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {skillsData.map((item, index) => (
             <div
               key={index}
-              className="glass-card p-6 hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+              className="glass-card group cursor-pointer"
+              onMouseEnter={(e) => {
+                const card = e.currentTarget;
+                gsap.to(card, { 
+                  y: -5,
+                  duration: 0.3,
+                  ease: "power2.out"
+                });
+              }}
+              onMouseLeave={(e) => {
+                const card = e.currentTarget;
+                gsap.to(card, { 
+                  y: 0,
+                  duration: 0.3,
+                  ease: "power2.out"
+                });
+              }}
             >
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-3">{item.category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {item.skills.map((skill, skillIndex) => (
-                  <span
-                    key={skillIndex}
-                    className="px-3 py-1 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg text-sm border border-gray-200"
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <div className="p-6">
+                <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-pink-50 to-purple-50 flex items-center justify-center text-3xl mb-5 text-pink-500">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4">{item.category}</h3>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {item.skills.map((skill, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg text-xs font-medium border border-gray-200"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           ))}

@@ -2,45 +2,57 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink } from "lucide-react";
+import bosOnline from "@/assets/bosOnline.png";
+import bosCOD from "@/assets/bosCOD.png";
+import bosAgen from "@/assets/bosAgen.png";
+import takonAI from "@/assets/takonAI.png";
+import dkpSystem from "@/assets/dkpSystem.png";
+import sipakdeSystem from "@/assets/sipakdeSystem.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
     name: "bosOnline",
-    description: "Comprehensive business management platform for modern enterprises",
-    tech: ["React", "Node.js", "PostgreSQL", "Docker"],
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
+    description: "Bosonline is an online ordering and sales platform that enables merchants to create high-conversion checkout forms, manage orders, process payments, and integrate with multiple courier services in a single streamlined system. Designed to support both small businesses and high-volume sellers, bosOnline provides tools for product management, shipping automation, seller dashboards, analytics, and customer verification flows. By centralizing order processing and logistics, the platform helps merchants improve operational efficiency, increase conversion rates, and scale their business with ease",
+    tech: ["Golang", "Fiber", "Next.js", "Debezium"],
+    image: bosOnline,
+    link: "https://bosonline.id"
   },
   {
     name: "bosCOD",
-    description: "Cash on delivery management system with real-time tracking",
-    tech: ["React Native", "Express", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+    description: "Boscod is a multi-platform application (Android, iOS, and WebApp) that provides delivery and payment services with integrated courier APIs and a PPOB system. It is designed to meet the needs of a large user base. The app enables real-time delivery tracking and efficient payment processing, supporting various courier services, including IDExpress, JNE, J&T, J&T Cargo SiCepat, SAP Express, Anteraja, and Ninja Xpress.",
+    tech: ["Ionic", "React", "Codeigniter", "Laravel", "Microservices"],
+    image: bosCOD,
+    link: "https://ww3.boscod.com/"
   },
   {
     name: "bosAgen",
-    description: "Agent management and commission tracking system",
-    tech: ["Next.js", "Supabase", "Tailwind"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+    description: "Bosagen is an Android application similar to Boscod, but designed with agents as partners to facilitate delivery and payment services. It aims to address the needs of users who may not be able to place orders online, allowing agents to act as intermediaries. The application integrates courier APIs and a PPOB system, serving as a bridge between agents and customers.",
+    tech: ["Ionic", "React", "Codeigniter", "Laravel", "Microservices"],
+    image: bosAgen,
+    link: "https://play.google.com/store/apps/details?id=com.boscod.agen&hl=id&pli=1"
   },
   {
     name: "TakonAI",
-    description: "AI-powered recommendation engine for personalized experiences",
-    tech: ["TypeScript", "OpenAI", "FastAPI"],
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+    description: "TakonAI is an AI chat app that delivers intelligent, real-time conversations powered by OpenAI and Anthropic technologies. It offers personalized responses, adapting to user context, while ensuring a seamless experience with secure authentication and the ability to view chat history.",
+    tech: ["Next.js", "Nest.js", "OpenAI", "Anthropic"],
+    image: takonAI,
+    link: "https://takonai-zeta.vercel.app"
   },
   {
     name: "DKP System",
-    description: "Digital knowledge platform for educational institutions",
-    tech: ["Vue.js", "Laravel", "MySQL"],
-    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop",
+    description: "Developed a web-based attendance system for DKP Kabupaten Bangkalan with GPS technology and workload analysis features.",
+    tech: ["Web", "GPS", "Google Maps API"],
+    image: dkpSystem,
+    link: "#"
   },
   {
     name: "Sipakde System",
-    description: "Integrated delivery management and logistics platform",
-    tech: ["React", "NestJS", "Redis"],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop",
+    description: "Created a web and Android application to help soybean farmers diagnose plant pests.",
+    tech: ["Web", "Android", "Machine Learning"],
+    image: sipakdeSystem,
+    link: "#"
   },
 ];
 
@@ -132,37 +144,40 @@ export default function Projects() {
               onMouseLeave={handleCardLeave}
             >
               {/* Project Image */}
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.name}
                   className="project-image w-full h-full object-cover"
                 />
-                <div className="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 flex items-end justify-center pb-6">
-                  <button className="project-button px-6 py-3 bg-white rounded-full font-medium flex items-center gap-2 opacity-0 translate-y-5">
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 flex items-end justify-center pb-6"
+                >
+                  <span className="project-button px-6 py-3 bg-white rounded-full font-medium flex items-center gap-2 opacity-0 translate-y-5">
                     View Project
                     <ExternalLink className="w-4 h-4" />
-                  </button>
-                </div>
+                  </span>
+                </a>
               </div>
 
               {/* Project Info */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{project.name}</h3>
-                <p className="text-muted-foreground mb-4">
+              <div className="p-5">
+                <div className="relative group/desc">
+                <p className="text-gray-600 mb-6 h-[12em] group-hover/desc:h-auto overflow-hidden transition-all duration-500 ease-in-out">
                   {project.description}
+                  <span className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent 
+                            group-hover/desc:opacity-0 transition-opacity duration-300"></span>
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-blue-500 opacity-50
+                            group-hover/desc:opacity-0 transition-opacity duration-300">
+                    
+                  </span>
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg text-xs font-medium border border-gray-200"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
               </div>
+              
+            </div>
             </div>
           ))}
         </div>

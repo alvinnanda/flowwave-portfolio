@@ -10,7 +10,7 @@ const contactInfo = [
     icon: Phone,
     label: "Phone",
     value: "+62 823 0135 7568",
-    href: "tel:+6282301357568",
+    href: "https://wa.me/6282301357568",
   },
   {
     icon: Mail,
@@ -22,13 +22,13 @@ const contactInfo = [
     icon: Linkedin,
     label: "LinkedIn",
     value: "Connect on LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/alvinnandad",
   },
   {
     icon: Github,
     label: "GitHub",
     value: "View my work",
-    href: "https://github.com",
+    href: "https://github.com/alvinnandad",
   },
 ];
 

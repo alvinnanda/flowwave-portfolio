@@ -9,46 +9,30 @@ const experiences = [
   {
     role: "Project Lead",
     company: "bosonline.id",
-    period: "2022 - Present",
-    description: "Leading development team for enterprise business management solutions",
-    achievements: [
-      "Architected scalable microservices platform",
-      "Managed team of 8 developers",
-      "Increased system performance by 300%",
-    ],
+    period: "2025 - Present",
+    description: "As the Project Lead at bosOnline, I oversaw the end-to-end development of a high-conversion online ordering platform and led the planning and delivery of critical features including multi-form checkout flows, order management, courier API integrations, payment processing, and seller dashboards. I provided technical direction and guidance to the engineering team, prioritized technical debt and feature development, and ensured the platform delivered a seamless, reliable experience for thousands of sellers. As a result, the team continuously improved product quality, optimized onboarding and verification flows, and enhanced analytics features that help sellers track and grow their business.",
+    achievements: [],
   },
   {
     role: "Full Stack Developer",
-    company: "bosCOD",
-    period: "2021 - 2022",
-    description: "Developed comprehensive COD management system",
-    achievements: [
-      "Built real-time tracking dashboard",
-      "Implemented automated notification system",
-      "Reduced delivery errors by 45%",
-    ],
+    company: "bosCOD.com",
+    period: "2021 - Present",
+    description: "At Boscod, I ensured smooth integration with various courier APIs, enabling real-time tracking and automatic status updates for deliveries. I developed an intuitive and optimized Android application tailored to the needs of a large user base, while also selecting and testing software tools to ensure development efficiency and quality. Additionally, I integrated and managed PPOB systems for seamless payment processing, resolved technical issues during API integration and application development, and actively collaborated with cross-functional teams to analyze user needs, design technical solutions, and ensure the application's usability. I also utilized Agile/Scrum methodologies and tools like Jira to manage project workflows effectively and maintain development efficiency.",
+    achievements: [],
   },
   {
-    role: "Software Engineer Trainee",
-    company: "Digital Talent Scholarship (DTS)",
+    role: "Training Program",
+    company: "DTS Kominfo - Intro to Full Stack Developer",
     period: "2020 - 2021",
-    description: "Intensive training in modern web technologies",
-    achievements: [
-      "Completed advanced React and Node.js courses",
-      "Built multiple full-stack projects",
-      "Achieved top 10% ranking",
-    ],
+    description: "I completed a training program in Full Stack Development, covering web technologies such as HTML & CSS, JavaScript, SQL, Node.js, and Python, gaining a solid foundation in building web applications.",
+    achievements: [],
   },
   {
     role: "Software Engineering Intern",
-    company: "PT Kereta Api Indonesia (KAI)",
-    period: "2019 - 2020",
-    description: "Contributed to internal systems development",
-    achievements: [
-      "Developed employee management module",
-      "Assisted in API integration projects",
-      "Improved code documentation practices",
-    ],
+    company: "PT. Kereta Api Indonesia (Persero) Upt. Pengusahaan Aset Madura",
+    period: "Apr 2019 - Mei 2019",
+    description: "Developed an Android application for internal company asset management in the Madura region.",
+    achievements: [],
   },
 ];
 
@@ -167,9 +151,6 @@ export default function Experience() {
                   className="glass-card p-6 w-full md:w-5/12 hover:shadow-2xl transition-shadow"
                 >
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="p-2 bg-gradient-pink rounded-lg">
-                      <Briefcase className="w-5 h-5 text-white" />
-                    </div>
                     <div>
                       <h3 className="text-lg font-bold">{exp.role}</h3>
                       <p className="text-primary font-medium">{exp.company}</p>
