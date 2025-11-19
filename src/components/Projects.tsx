@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink } from "lucide-react";
-import bosOnline from "@/assets/bosOnline.png";
+import bosOnline from "@/assets/bosonline.png";
 import bosCOD from "@/assets/bosCOD.png";
 import bosAgen from "@/assets/bosAgen.png";
 import takonAI from "@/assets/takonAI.png";
