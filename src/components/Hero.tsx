@@ -26,59 +26,56 @@ export default function Hero() {
 
       // Title animation with split text effect
       if (titleRef.current) {
-        // Save the original HTML content with styles
-        const originalHTML = titleRef.current.innerHTML;
+        // Get all text nodes and their parent spans
+        const textNodes: { node: Node; parent: HTMLElement }[] = [];
         
-        // Create spans for each character while preserving the inner HTML structure
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = originalHTML;
-        
-        // Process each text node within the title
-        const processNode = (node: Node) => {
-          if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
-            const text = node.textContent;
-            const parent = node.parentNode;
-            const span = document.createElement('span');
-            span.style.display = 'inline-block';
-            span.style.verticalAlign = 'top';
-            
-            // Create spans for each character
-            const charSpans = text.split('').map(char => {
-              const charSpan = document.createElement('span');
-              charSpan.className = 'inline-block';
-              charSpan.textContent = char === ' ' ? '\u00A0' : char;
-              return charSpan.outerHTML;
-            }).join('');
-            
-            span.innerHTML = charSpans;
-            parent?.replaceChild(span, node);
-            return Array.from(span.children);
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            const element = node as HTMLElement;
-            if (element.children.length > 0) {
-              return Array.from(element.children).flatMap(processNode);
+        const collectTextNodes = (element: Node) => {
+          for (let i = 0; i < element.childNodes.length; i++) {
+            const node = element.childNodes[i];
+            if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+              textNodes.push({
+                node,
+                parent: element as HTMLElement
+              });
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              collectTextNodes(node);
             }
           }
-          return [];
         };
         
-        // Process all child nodes
-        const allSpans = Array.from(tempDiv.childNodes).flatMap(processNode);
+        collectTextNodes(titleRef.current);
         
-        // Update the title with the new HTML structure
-        titleRef.current.innerHTML = tempDiv.innerHTML;
+        // Process each text node
+        const allSpans: HTMLElement[] = [];
+        
+        textNodes.forEach(({ node, parent }) => {
+          const text = node.textContent || '';
+          const fragment = document.createDocumentFragment();
+          
+          text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.className = 'inline-block';
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            fragment.appendChild(span);
+            allSpans.push(span);
+          });
+          
+          // Replace the text node with the new spans
+          parent.replaceChild(fragment, node);
+        });
         
         // Animate each character span
-        tl.from(allSpans, {
-          opacity: 0,
-          y: 50,
-          rotationX: -90,
-          stagger: 0.02,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-        });
+        if (allSpans.length > 0) {
+          tl.from(allSpans, {
+            opacity: 0,
+            y: 50,
+            rotationX: -90,
+            stagger: 0.02,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          });
+        }
       }
-
       // Subtitle fade in
       tl.from(
         subtitleRef.current,
@@ -128,8 +125,8 @@ export default function Hero() {
         },
         "-=0.2"
       );
-    }, heroRef);
-
+    }); // Close gsap.context()
+    
     // Parallax effect on scroll
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -153,6 +150,7 @@ export default function Hero() {
 
     return () => {
       ctx.revert();
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
