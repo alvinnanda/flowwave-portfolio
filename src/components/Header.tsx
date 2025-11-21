@@ -15,6 +15,7 @@ const navItems = [
 export default function Header() {
   const [activeSection, setActiveSection] = useState("about");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function Header() {
         scrollTo: { y: target, offsetY: 80 },
         ease: "power3.inOut",
       });
+      setIsMobileMenuOpen(false); // Close mobile menu after navigation
     }
   };
 
@@ -98,7 +100,11 @@ export default function Header() {
           </ul>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-1">
+          <button
+            className="md:hidden p-1"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
             <svg
               className="w-5 h-5"
               fill="none"
@@ -113,6 +119,26 @@ export default function Header() {
           </button>
         </div>
       </nav>
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="bg-white/80 md:hidden mt-4 pt-4 border-t border-gray-200/50">
+          <ul className="flex flex-col gap-3">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <button
+                  onClick={() => scrollToSection(item.href)}
+                  className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeSection === item.href.replace("#", "")
+                    ? "bg-gradient-pink text-white"
+                    : "text-foreground hover:bg-gray-100/50"
+                    }`}
+                >
+                  {item.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

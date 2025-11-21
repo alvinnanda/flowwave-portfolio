@@ -139,7 +139,7 @@ export default function Experience() {
           {/* Central Line */}
           <div
             ref={lineRef}
-            className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-transparent via-primary/30 to-transparent ml-4 md:ml-0"
+            className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-transparent via-primary/30 to-transparent"
           />
 
           {/* Timeline Items */}
@@ -151,7 +151,7 @@ export default function Experience() {
                   }`}
               >
                 {/* Card Side */}
-                <div className={`w-full md:w-1/2 pl-12 ${index % 2 === 0 ? "md:pl-0" : ""} md:px-12`}>
+                <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pl-0" : ""} md:px-12`}>
                   <div
                     ref={(el) => (cardsRef.current[index] = el)}
                     className="relative group perspective-1000"
@@ -191,7 +191,7 @@ export default function Experience() {
                 </div>
 
                 {/* Center Dot */}
-                <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 flex items-center justify-center w-8 h-8 z-20 mt-1.5 md:mt-0">
+                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center justify-center w-8 h-8 z-20">
                   <div
                     ref={(el) => (dotsRef.current[index] = el)}
                     className="w-4 h-4 bg-background rounded-full border-4 border-primary shadow-[0_0_15px_rgba(var(--primary),0.5)] relative"
