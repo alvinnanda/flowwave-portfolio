@@ -28,7 +28,7 @@ export default function Hero() {
       if (titleRef.current) {
         // Get all text nodes and their parent spans
         const textNodes: { node: Node; parent: HTMLElement }[] = [];
-        
+
         const collectTextNodes = (element: Node) => {
           for (let i = 0; i < element.childNodes.length; i++) {
             const node = element.childNodes[i];
@@ -42,16 +42,16 @@ export default function Hero() {
             }
           }
         };
-        
+
         collectTextNodes(titleRef.current);
-        
+
         // Process each text node
         const allSpans: HTMLElement[] = [];
-        
+
         textNodes.forEach(({ node, parent }) => {
           const text = node.textContent || '';
           const fragment = document.createDocumentFragment();
-          
+
           text.split('').forEach((char, index) => {
             const span = document.createElement('span');
             span.className = 'inline-block';
@@ -59,11 +59,11 @@ export default function Hero() {
             fragment.appendChild(span);
             allSpans.push(span);
           });
-          
+
           // Replace the text node with the new spans
           parent.replaceChild(fragment, node);
         });
-        
+
         // Animate each character span
         if (allSpans.length > 0) {
           tl.from(allSpans, {
@@ -71,7 +71,7 @@ export default function Hero() {
             y: 50,
             rotationX: -90,
             stagger: 0.02,
-            duration: 0.8,
+            duration: 0.4,
             ease: "back.out(1.7)",
           });
         }
@@ -126,7 +126,7 @@ export default function Hero() {
         "-=0.2"
       );
     }); // Close gsap.context()
-    
+
     // Parallax effect on scroll
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -158,30 +158,30 @@ export default function Hero() {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center justify-center pt-20 pb-12 md:pb-24 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-32 pb-24 md:pt-20 md:pb-24 overflow-hidden"
     >
       <div ref={heroRef} className="container mx-auto px-4 md:px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-center md:text-left flex flex-col items-center md:items-start">
             <h1
               ref={titleRef}
-              className="text-5xl lg:text-6xl font-bold leading-tight text-muted-foreground"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-muted-foreground"
             >
-              <span className="text-black dark:text-white">Hi, I'm</span>{" "}
+              <span className="text-foreground">Hi, I'm</span>{" "}
               <span className="text-muted-foreground">Alvinnanda</span>
             </h1>
-            
+
             <p
               ref={subtitleRef}
-              className="text-xl md:text-2xl"
+              className="text-lg md:text-xl lg:text-2xl max-w-lg md:max-w-none mx-auto md:mx-0"
             >
               A passionate Software Engineer crafting beautiful digital
               experiences with modern technologies.
             </p>
 
             {/* Skill Tags */}
-            <div ref={tagsRef} className="flex flex-wrap gap-3">
+            <div ref={tagsRef} className="flex flex-wrap justify-center md:justify-start gap-3">
               {skills.map((skill) => (
                 <span
                   key={skill}
@@ -194,10 +194,10 @@ export default function Hero() {
           </div>
 
           {/* Right Image */}
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-8 md:mb-0">
             <div
               ref={imageRef}
-              className="relative w-64 h-64 md:w-80 md:h-80"
+              className="relative w-48 h-48 md:w-80 md:h-80"
             >
               <div className="absolute inset-0 bg-gradient-pink rounded-full blur-2xl opacity-30 animate-pulse"></div>
               <img
@@ -209,15 +209,15 @@ export default function Hero() {
           </div>
         </div>
       </div>
-        {/* Scroll Indicator */}
-        <div
-          ref={scrollRef}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-slow"
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
-        >
-          <span className="text-sm text-muted-foreground">Scroll to explore</span>
-          <ChevronDown className="w-6 h-6 text-primary" />
-        </div>
+      {/* Scroll Indicator */}
+      <div
+        ref={scrollRef}
+        className="absolute bottom-8 left-0 w-full flex flex-col items-center gap-2 animate-bounce-slow"
+        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+      >
+        <span className="text-sm text-muted-foreground">Scroll to explore</span>
+        <ChevronDown className="w-6 h-6 text-primary" />
+      </div>
     </section>
   );
 }

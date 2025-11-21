@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     name: "bosOnline",
-    description: "Bosonline is an online ordering and sales platform that enables merchants to create high-conversion checkout forms, manage orders, process payments, and integrate with multiple courier services in a single streamlined system. Designed to support both small businesses and high-volume sellers, bosOnline provides tools for product management, shipping automation, seller dashboards, analytics, and customer verification flows. By centralizing order processing and logistics, the platform helps merchants improve operational efficiency, increase conversion rates, and scale their business with ease",
+    description: "bosOnline is an online ordering platform that lets merchants create high-conversion checkout forms, manage orders, process payments, and connect to multiple couriers from one dashboard. It supports small shops to high-volume sellers with product management, shipping automation, seller dashboards, analytics, and customer verification to centralize operations, boost conversions, and scale growth.",
     tech: ["Golang", "Fiber", "Next.js", "Debezium"],
     image: bosOnline,
     link: "https://bosonline.id"
@@ -64,120 +64,194 @@ export default function Projects() {
     const ctx = gsap.context(() => {
       const cards = cardsRef.current?.children || [];
 
-      // Only animate if elements exist
       if (cards.length > 0) {
-        gsap.fromTo(cards,
-          {
-            opacity: 0,
-            y: 60,
-            rotation: 5,
-          },
-          {
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              toggleActions: "play none none reverse",
+        Array.from(cards).forEach((card, index) => {
+          // Scroll Trigger Animation
+          gsap.fromTo(
+            card,
+            {
+              opacity: 0,
+              y: 100,
+              scale: 0.9,
             },
-            opacity: 1,
-            y: 0,
-            rotation: 0,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: "power3.out",
+            {
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 1,
+              ease: "power4.out",
+            }
+          );
+
+          // Parallax Effect for Images
+          const image = card.querySelector(".project-image-container");
+          if (image) {
+            gsap.to(image, {
+              y: -30,
+              scrollTrigger: {
+                trigger: card,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+              },
+            });
           }
-        );
+        });
       }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleCardHover = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
-    const image = card.querySelector(".project-image") as HTMLElement;
-    const overlay = card.querySelector(".project-overlay") as HTMLElement;
-    const button = card.querySelector(".project-button") as HTMLElement;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg rotation
+    const rotateY = ((x - centerX) / centerX) * 5;
 
-    gsap.timeline()
-      .to(image, { scale: 1.1, duration: 0.4, ease: "power2.out" })
-      .to(overlay, { opacity: 1, duration: 0.3 }, "-=0.4")
-      .to(button, { y: 0, opacity: 1, duration: 0.3 }, "-=0.2");
+    gsap.to(card, {
+      rotationX: rotateX,
+      rotationY: rotateY,
+      duration: 0.5,
+      ease: "power2.out",
+      transformPerspective: 1000,
+    });
   };
 
-  const handleCardLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const image = card.querySelector(".project-image") as HTMLElement;
-    const overlay = card.querySelector(".project-overlay") as HTMLElement;
-    const button = card.querySelector(".project-button") as HTMLElement;
-
-    gsap.timeline()
-      .to(button, { y: 20, opacity: 0, duration: 0.2 })
-      .to(overlay, { opacity: 0, duration: 0.3 }, "-=0.1")
-      .to(image, { scale: 1, duration: 0.4, ease: "power2.out" }, "-=0.3");
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.currentTarget, {
+      rotationX: 0,
+      rotationY: 0,
+      duration: 0.5,
+      ease: "power2.out",
+    });
   };
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="py-12 md:py-24 bg-white"
+      className="py-20 md:py-32 bg-background overflow-hidden"
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="gradient-text">Featured Projects</span>
+      <div className="container mx-auto px-4 md:px-6 relative">
+        {/* Section Header */}
+        <div className="text-center mb-24 relative z-10">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+            <span className="gradient-text">
+              Featured Projects
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Showcasing innovative solutions that drive business value
+          <div className="w-24 h-1 bg-gradient-pink mx-auto rounded-full mb-6"></div>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+            Crafting digital experiences that merge <span className="font-medium text-foreground">innovation</span> with <span className="font-medium text-foreground">purpose</span>.
           </p>
         </div>
 
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="flex flex-col gap-20 md:gap-32"
         >
           {projects.map((project, index) => (
             <div
               key={index}
-              className="glass-card overflow-hidden group cursor-pointer"
-              onMouseEnter={handleCardHover}
-              onMouseLeave={handleCardLeave}
+              className={`relative flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                } items-center group perspective-1000`}
             >
-              {/* Project Image */}
-              <div className="relative overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="project-image w-full h-full object-cover"
-                />
-                <a 
-                  href={project.link} 
-                  target="_blank" 
+              {/* Decorative Number */}
+              <div
+                className={`absolute top-0 ${index % 2 === 0 ? "-left-12 md:-left-24" : "-right-12 md:-right-24"
+                  } -translate-y-1/2 text-[8rem] md:text-[12rem] font-bold text-muted/20 select-none z-0 pointer-events-none`}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </div>
+
+              {/* Project Image Side */}
+              <div
+                className="w-full md:w-3/5 relative z-10 project-image-container"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              >
+                <a
+                  href={project.link}
+                  target={project.link == '#' ? "_self" : "_blank"}
                   rel="noopener noreferrer"
-                  className="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 flex items-end justify-center pb-6"
+                  className="block relative rounded-2xl overflow-hidden shadow-2xl aspect-video transform transition-all duration-500 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] cursor-pointer"
                 >
-                  <span className="project-button px-6 py-3 bg-white rounded-full font-medium flex items-center gap-2 opacity-0 translate-y-5">
-                    View Project
-                    <ExternalLink className="w-4 h-4" />
-                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none"></div>
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* Floating Action Button */}
+                  <div
+                    className={`absolute bottom-6 ${index % 2 === 0 ? "left-6" : "right-6"
+                      } z-30 w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-lg transform translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-muted hover:scale-110`}
+                    title="View Project"
+                  >
+                    <ExternalLink className="w-5 h-5 text-foreground" />
+                  </div>
                 </a>
               </div>
 
-              {/* Project Info */}
-              <div className="p-5">
-                <div className="relative group/desc">
-                <p className="text-gray-600 mb-6 h-[12em] group-hover/desc:h-auto overflow-hidden transition-all duration-500 ease-in-out">
-                  {project.description}
-                  <span className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent 
-                            group-hover/desc:opacity-0 transition-opacity duration-300"></span>
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-blue-500 opacity-50
-                            group-hover/desc:opacity-0 transition-opacity duration-300">
-                    
-                  </span>
-                </p>
+              {/* Project Content Side - Glassmorphism */}
+              <div
+                className={`w-full md:w-1/2 relative z-20 mt-[-40px] md:mt-0 ${index % 2 === 0 ? "md:-ml-20" : "md:-mr-20"
+                  }`}
+              >
+                <div className="bg-background/80 backdrop-blur-xl border border-border/50 shadow-xl rounded-2xl p-6 md:p-10 transform transition-transform duration-500 hover:-translate-y-2">
+                  <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground flex items-center gap-3">
+                    <a
+                      href={project.link}
+                      target={project.link == '#' ? "_self" : "_blank"}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-foreground font-semibold hover:text-primary transition-colors"
+                    >{project.name}</a>
+                    <div className="h-px flex-grow bg-gradient-to-r from-border to-transparent ml-4"></div>
+                  </h3>
+
+                  <p className="text-muted-foreground mb-8 leading-relaxed text-base">
+                    {project.description}
+                  </p>
+
+                  <div className="space-y-4">
+                    <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                      Technologies
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech, i) => (
+                        <span
+                          key={i}
+                          className="px-4 py-1.5 bg-secondary/50 border border-border text-secondary-foreground text-sm font-medium rounded-full hover:border-primary/50 hover:text-primary hover:shadow-sm transition-all duration-300 cursor-default"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-border md:hidden">
+                    <a
+                      href={project.link}
+                      target={project.link == '#' ? "_self" : "_blank"}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-foreground font-semibold hover:text-primary transition-colors"
+                    >
+                      View Project <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
               </div>
-              
-            </div>
             </div>
           ))}
         </div>

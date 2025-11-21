@@ -19,8 +19,8 @@ export default function Footer() {
           {
             scrollTrigger: {
               trigger: footerRef.current,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
+              start: "top bottom",
+              toggleActions: "play none none none",
             },
             opacity: 1,
             y: 0,
@@ -45,13 +45,12 @@ export default function Footer() {
           <p className="text-sm flex items-center gap-2">
             © {new Date().getFullYear()} Alvinnanda Dary. Built with
             <Heart className="w-4 h-4 text-primary fill-primary" />
-            and GSAP
           </p>
 
           {/* Social Links */}
           <div className="flex gap-6">
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/alvinnandad"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
@@ -59,7 +58,7 @@ export default function Footer() {
               LinkedIn
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/alvinnanda"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"

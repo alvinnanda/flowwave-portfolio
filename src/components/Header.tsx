@@ -6,9 +6,9 @@ gsap.registerPlugin(ScrollToPlugin);
 
 const navItems = [
   { name: "About", href: "#about" },
+  { name: "Experience", href: "#experience" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -31,7 +31,7 @@ export default function Header() {
       setIsScrolled(window.scrollY > 20);
 
       // Determine active section
-      const sections = ["about", "skills", "projects", "experience", "contact"];
+      const sections = ["about", "experience", "skills", "projects", "contact"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -63,21 +63,19 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "backdrop-blur-md bg-white/80 shadow-lg" : "bg-transparent"
-      }`}
+      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300"
     >
-      <nav className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex flex-col">
-            <h1 className="text-xl md:text-2xl font-bold gradient-text">
-              Alvinnanda Dary
-            </h1>
-            <p className="text-xs md:text-sm text-muted-foreground">
-              Software Engineer
-            </p>
-          </div>
+      <nav
+        className={`rounded-full px-8 py-4 transition-all duration-300 ${isScrolled
+          ? "backdrop-blur-md bg-white/80 shadow-lg"
+          : "backdrop-blur-sm bg-white/60 shadow-md"
+          }`}
+      >
+        <div className="flex items-center gap-10">
+          {/* Logo - Simplified for pill shape */}
+          <h1 className="text-base font-bold gradient-text whitespace-nowrap">
+            Alvinnanda Dary
+          </h1>
 
           {/* Navigation Links */}
           <ul className="hidden md:flex items-center gap-8">
@@ -85,15 +83,14 @@ export default function Header() {
               <li key={item.name}>
                 <button
                   onClick={() => scrollToSection(item.href)}
-                  className="relative text-sm font-medium text-foreground hover:text-primary transition-colors group"
+                  className="relative text-sm font-medium text-foreground hover:text-primary transition-colors group whitespace-nowrap"
                 >
                   {item.name}
                   <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-gradient-pink transition-all duration-300 ${
-                      activeSection === item.href.replace("#", "")
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-pink transition-all duration-300 ${activeSection === item.href.replace("#", "")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                      }`}
                   />
                 </button>
               </li>
@@ -101,9 +98,9 @@ export default function Header() {
           </ul>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2">
+          <button className="md:hidden p-1">
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"

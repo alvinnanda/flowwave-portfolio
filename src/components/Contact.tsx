@@ -28,7 +28,7 @@ const contactInfo = [
     icon: Github,
     label: "GitHub",
     value: "View my work",
-    href: "https://github.com/alvinnandad",
+    href: "https://github.com/alvinnanda",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function Contact() {
             opacity: 1,
             y: 0,
             stagger: 0.15,
-            duration: 0.6,
+            duration: 0.4,
             ease: "power3.out",
           }
         );
@@ -90,7 +90,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-12 md:py-24 bg-white"
+      className="min-h-screen py-12 md:py-24 bg-secondary/10 flex flex-col justify-center"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">

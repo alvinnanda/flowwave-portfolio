@@ -13,7 +13,7 @@ const skillsData = [
   {
     icon: "⚙️",
     category: "Backend",
-    skills: ["PHP","Golang","Node.js", "Express", "NestJS", "REST API"],
+    skills: ["PHP", "Golang", "Node.js", "Express", "NestJS", "REST API"],
   },
   {
     icon: "📱",
@@ -47,7 +47,7 @@ export default function Skills() {
 
       // Only animate if elements exist
       if (cards.length > 0) {
-        gsap.fromTo(cards, 
+        gsap.fromTo(cards,
           {
             opacity: 0,
             y: 50,
@@ -61,7 +61,7 @@ export default function Skills() {
             opacity: 1,
             y: 0,
             stagger: 0.15,
-            duration: 0.8,
+            duration: 0.4,
             ease: "power3.out",
           }
         );
@@ -75,14 +75,20 @@ export default function Skills() {
     <section
       id="skills"
       ref={sectionRef}
-      className="py-12 md:py-24 bg-white"
+      className="py-12 md:py-24 relative overflow-hidden bg-secondary/10"
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/3 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -translate-x-1/2"></div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="gradient-text">Skills & Expertise</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             A comprehensive toolkit for building modern, scalable applications
           </p>
         </div>
@@ -94,37 +100,44 @@ export default function Skills() {
           {skillsData.map((item, index) => (
             <div
               key={index}
-              className="glass-card group cursor-pointer"
+              className="relative group perspective-1000"
               onMouseEnter={(e) => {
-                const card = e.currentTarget;
-                gsap.to(card, { 
-                  y: -5,
-                  duration: 0.3,
-                  ease: "power2.out"
-                });
+                const card = e.currentTarget.querySelector('.glass-card');
+                if (card) {
+                  gsap.to(card, {
+                    y: -5,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                }
               }}
               onMouseLeave={(e) => {
-                const card = e.currentTarget;
-                gsap.to(card, { 
-                  y: 0,
-                  duration: 0.3,
-                  ease: "power2.out"
-                });
+                const card = e.currentTarget.querySelector('.glass-card');
+                if (card) {
+                  gsap.to(card, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                }
               }}
             >
-              <div className="p-6">
-                <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-pink-50 to-purple-50 flex items-center justify-center text-3xl mb-5 text-pink-500">
-                  {item.icon}
+              {/* Gradient Glow Effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+              <div className="relative glass-card p-8 h-full bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 flex items-center justify-center text-4xl group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold gradient-text">{item.category}</h3>
                 </div>
-                <h3 className="text-xl font-bold mb-4">{item.category}</h3>
-                </div>
-                
+
                 <div className="flex flex-wrap gap-2">
                   {item.skills.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg text-xs font-medium border border-gray-200"
+                      className="px-3 py-1.5 bg-secondary/30 hover:bg-secondary/50 rounded-lg text-sm font-medium text-foreground/80 border border-transparent hover:border-primary/20 transition-all duration-300 cursor-default"
                     >
                       {skill}
                     </span>
