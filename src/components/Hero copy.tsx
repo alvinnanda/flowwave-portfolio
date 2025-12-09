@@ -254,8 +254,7 @@ export default function Hero() {
 
       // Transition from profile to character
       tl.call(() => {
-        const isMobile = window.innerWidth < 768;
-        if (imageRef.current && !isMobile) {
+        if (imageRef.current) {
           gsap.to(imageRef.current, {
             opacity: 0,
             duration: ANIMATION_CONFIG.PROFILE_FADE_DURATION,
@@ -440,7 +439,7 @@ export default function Hero() {
         {/* Object Showcase */}
         <div
           ref={objectShowcaseRef}
-          className="hidden md:block pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
+          className="pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
           onClick={() => {
             const projectsSection = document.getElementById('projects');
             if (projectsSection) {
@@ -464,7 +463,7 @@ export default function Hero() {
 
         {/* Object Showcase */}
         <div
-          className="hidden md:block pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
+          className="pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
           onClick={() => {
             const projectsSection = document.getElementById('projects');
             if (projectsSection) {
@@ -488,7 +487,7 @@ export default function Hero() {
 
         {/* Object experience */}
         <div
-          className="hidden md:block pointer-events-auto cursor-pointer [filter:drop-shadow(5px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
+          className="pointer-events-auto cursor-pointer [filter:drop-shadow(5px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
           onClick={() => {
             const skillsSection = document.getElementById('experience');
             if (skillsSection) {
@@ -512,7 +511,7 @@ export default function Hero() {
 
         {/* Object Contact */}
         <div
-          className="hidden md:block pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
+          className="pointer-events-auto cursor-pointer [filter:drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:drop-shadow(2px_0px_0px_rgba(255,255,255,1))_drop-shadow(-2px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_2px_0px_rgba(255,255,255,1))_drop-shadow(0px_-2px_0px_rgba(255,255,255,1))]"
           onClick={() => {
             const contactSection = document.getElementById('contact');
             if (contactSection) {
@@ -591,7 +590,8 @@ export default function Hero() {
 
               {/* Object Menu */}
               <div 
-                className={`pointer-events-auto cursor-pointer [filter:blur(0.9px)_drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:blur(0px)_drop-shadow(6px_0px_0px_rgba(255,255,255,1))_drop-shadow(-6px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_6px_0px_rgba(255,255,255,1))_drop-shadow(0px_-6px_0px_rgba(255,255,255,1))] ${isProfileVisible ? 'hidden' : 'hidden md:block'}`}
+                hidden={isProfileVisible}
+                className="pointer-events-auto cursor-pointer [filter:blur(0.9px)_drop-shadow(8px_8px_12px_rgba(0,0,0,0.3))] hover:[filter:blur(0px)_drop-shadow(6px_0px_0px_rgba(255,255,255,1))_drop-shadow(-6px_0px_0px_rgba(255,255,255,1))_drop-shadow(0px_6px_0px_rgba(255,255,255,1))_drop-shadow(0px_-6px_0px_rgba(255,255,255,1))]"
                 onClick={() => {
                   const menuSection = document.getElementById('skills');
                   if (menuSection) {
