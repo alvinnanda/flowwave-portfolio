@@ -10,7 +10,7 @@ const experiences = [
     role: "Project Lead",
     company: "bosonline.id",
     period: "2025 - Present",
-    description: "As the Project Lead at bosOnline, I oversaw the end-to-end development of a high-conversion online ordering platform and led the planning and delivery of critical features including multi-form checkout flows, order management, courier API integrations, payment processing, and seller dashboards. I provided technical direction and guidance to the engineering team, prioritized technical debt and feature development, and ensured the platform delivered a seamless, reliable experience for thousands of sellers. As a result, the team continuously improved product quality, optimized onboarding and verification flows, and enhanced analytics features that help sellers track and grow their business.",
+    description: "As the Project Lead at bosOnline, I led the end-to-end development of a high-conversion online ordering platform, driving key features such as multi-form checkout, order management, BOSCOD API integrations, payment processing, and seller dashboards. I provided clear technical direction, prioritized technical debt and feature delivery, and ensured a seamless, reliable experience for thousands of sellers. This resulted in improved product quality, faster onboarding and verification flows, and enhanced analytics that support sellers in tracking and growing their business.",
     achievements: [],
   },
   {
