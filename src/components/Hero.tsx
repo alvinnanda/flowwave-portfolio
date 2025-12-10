@@ -24,16 +24,16 @@ const CHARACTER_CONFIG = {
   INITIAL_POSITION_X: 12430, // fixed pixels from left
   INITIAL_POSITION_Y: 600, // fixed pixels from top
   SIZE: 320, // pixels
-  OPACITY: 0.9,
+  OPACITY: 1,
   MOVEMENT_THRESHOLD: 2, // pixels to avoid jitter
-  IDLE_TIMEOUT: 200, // milliseconds before returning to front view
-  TRANSITION_DURATION: '0.s',
+  IDLE_TIMEOUT: 150, // milliseconds before returning to front view
+  SMOOTH_DURATION: 0.15, // GSAP animation duration for smooth following
+  THROTTLE_DELAY: 20, // ms (~50fps) - Lower value = less delay
   IMAGES: {
     FRONT: '/hero-front-wiew.webp',
     LEFT: '/hero-left-wiew.webp',
     RIGHT: '/hero-right-wiew.webp',
   },
-
 } as const;
 
 const OBJECT_SHOWCASE_CONFIG = {
@@ -108,15 +108,15 @@ export default function Hero() {
   const characterRef = useRef<HTMLDivElement>(null);
   const objectShowcaseRef = useRef<HTMLDivElement>(null);
   const lastMouseX = useRef<number>(0);
+  const lastUpdateRef = useRef<number>(0); // Throttle tracking
   const mouseTimeout = useRef<NodeJS.Timeout | null>(null);
+  const targetXRef = useRef<number>(0); // Target position for smooth interpolation
+  const imageRefs = useRef<{ [key: string]: HTMLImageElement | null }>({}); // Refs for direct image manipulation
+  const currentPoseRef = useRef<string>(CHARACTER_CONFIG.IMAGES.FRONT); // Track current pose without render
 
   // ============================================================================
   // STATE
   // ============================================================================
-  const [characterImage, setCharacterImage] = useState<CharacterImageType>(
-    CHARACTER_CONFIG.IMAGES.FRONT
-  );
-  const [mouseXPixels, setMouseXPixels] = useState<number>(0);
   const [isProfileVisible, setIsProfileVisible] = useState<boolean>(true);
   const [isCharacterVisible, setIsCharacterVisible] = useState<boolean>(false);
   const [isCharacterInitialized, setIsCharacterInitialized] = useState<boolean>(false);
@@ -337,20 +337,65 @@ export default function Hero() {
   // EFFECTS - Mouse Interaction
   // ============================================================================
   useEffect(() => {
+    // Helper to switch poses smoothly using GSAP
+    const transitionToPose = (targetSrc: string) => {
+      if (targetSrc === currentPoseRef.current) return;
+      
+      const currentEl = imageRefs.current[currentPoseRef.current];
+      const newEl = imageRefs.current[targetSrc];
+
+      // Crossfade
+      if (currentEl) {
+        gsap.to(currentEl, { 
+          opacity: 0, 
+          duration: 0.2, 
+          ease: "power2.out", 
+          overwrite: true 
+        });
+      }
+      
+      if (newEl) {
+        gsap.to(newEl, { 
+          opacity: 1, 
+          duration: 0.2, 
+          ease: "power2.out", 
+          overwrite: true 
+        });
+      }
+      
+      currentPoseRef.current = targetSrc;
+    };
+
     /**
      * Handles mouse movement to update character position and pose
      * Only active when character is initialized and hero section is visible
+     * Uses GSAP for smooth position interpolation to prevent jitter
      */
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isCharacterInitialized || !isHeroVisible || !stageDimensions.width) return;
+      // Basic validation checks
+      if (!isCharacterInitialized || !isHeroVisible || !stageDimensions.width || !characterRef.current) return;
+      
+      // Throttle updates to ~60fps
+      const now = Date.now();
+      if (now - lastUpdateRef.current < CHARACTER_CONFIG.THROTTLE_DELAY) return;
+      lastUpdateRef.current = now;
       
       // Calculate mouse position relative to the stage
-      // We need to find where the stage is relative to the viewport
       const stageLeft = (window.innerWidth - stageDimensions.width) / 2;
       const relativeMouseX = e.clientX - stageLeft;
       
-      // Update character horizontal position in pixels relative to stage
-      setMouseXPixels(relativeMouseX>440?relativeMouseX:440);
+      // Clamp the target position with minimum boundary
+      const clampedX = Math.max(440, relativeMouseX);
+      targetXRef.current = clampedX;
+      
+      // Use GSAP for smooth position animation instead of setState
+      // This prevents flickering and ensures smooth interpolation
+      gsap.to(characterRef.current, {
+        left: `${clampedX}px`,
+        duration: CHARACTER_CONFIG.SMOOTH_DURATION,
+        ease: "power2.out",
+        overwrite: "auto" // Cancel previous animations to prevent queue buildup
+      });
       
       // Determine movement direction
       const deltaX = e.clientX - lastMouseX.current;
@@ -363,15 +408,15 @@ export default function Hero() {
       // Update character pose based on movement direction
       if (Math.abs(deltaX) > CHARACTER_CONFIG.MOVEMENT_THRESHOLD) {
         if (deltaX > 0) {
-          setCharacterImage(CHARACTER_CONFIG.IMAGES.RIGHT);
+          transitionToPose(CHARACTER_CONFIG.IMAGES.RIGHT);
         } else {
-          setCharacterImage(CHARACTER_CONFIG.IMAGES.LEFT);
+          transitionToPose(CHARACTER_CONFIG.IMAGES.LEFT);
         }
       }
       
       // Return to front view when mouse stops moving
       mouseTimeout.current = setTimeout(() => {
-        setCharacterImage(CHARACTER_CONFIG.IMAGES.FRONT);
+        transitionToPose(CHARACTER_CONFIG.IMAGES.FRONT);
       }, CHARACTER_CONFIG.IDLE_TIMEOUT);
       
       lastMouseX.current = e.clientX;
@@ -449,23 +494,31 @@ export default function Hero() {
             style={{
               position: 'absolute',
               left: isCharacterInitialized 
-                ? `${mouseXPixels?mouseXPixels:1070}px` 
+                ? `${targetXRef.current || 1070}px` 
                 : getPercentage(CHARACTER_CONFIG.INITIAL_POSITION_X, REFERENCE_WIDTH),
               top: getPercentage(CHARACTER_CONFIG.INITIAL_POSITION_Y, REFERENCE_HEIGHT),
               transform: 'translate(-50%, -50%)',
-              transition: isCharacterInitialized 
-                ? `left ${CHARACTER_CONFIG.TRANSITION_DURATION} ease-out, opacity 0.5s ease-in-out` 
-                : 'opacity 0.8s ease-in-out',
-              width: `${(CHARACTER_CONFIG.SIZE / REFERENCE_WIDTH) * 100}%`, // Scale size relative to stage width
-              aspectRatio: '1/1', // Maintain aspect ratio
-              backgroundImage: `url(${characterImage})`,
-              backgroundSize: 'contain',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
+              width: `${(CHARACTER_CONFIG.SIZE / REFERENCE_WIDTH) * 100}%`,
+              aspectRatio: '1/1',
               opacity: CHARACTER_CONFIG.OPACITY,
-              zIndex: 10
+              zIndex: 10,
+              willChange: 'left' // Hint to browser for GPU acceleration
             }}
-          />
+          >
+            {Object.values(CHARACTER_CONFIG.IMAGES).map((src) => (
+              <img
+                key={src}
+                ref={(el) => (imageRefs.current[src] = el)}
+                src={src}
+                alt=""
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{
+                  opacity: src === CHARACTER_CONFIG.IMAGES.FRONT ? 1 : 0, // Default to Front visible
+                  willChange: 'opacity'
+                }}
+              />
+            ))}
+          </div>
         )}
         
         {/* Object Showcase */}

@@ -1,10 +1,20 @@
+import { lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Skills from "@/components/Skills";
-import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+
+// Lazy load komponen yang tidak terlihat di awal (below the fold)
+const Skills = lazy(() => import("@/components/Skills"));
+const Projects = lazy(() => import("@/components/Projects"));
+const Experience = lazy(() => import("@/components/Experience"));
+const Contact = lazy(() => import("@/components/Contact"));
+const Footer = lazy(() => import("@/components/Footer"));
+
+// Loading fallback component
+const SectionLoader = () => (
+  <div className="flex items-center justify-center py-20">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 const Index = () => {
   return (
@@ -12,12 +22,22 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Contact />
+        <Suspense fallback={<SectionLoader />}>
+          <Experience />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Skills />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Contact />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={<SectionLoader />}>
+        <Footer />
+      </Suspense>
     </div>
   );
 };
