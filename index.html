@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
     <title>Alvinnanda Dary - Software Engineer Portfolio</title>
     <meta name="description" content="Portfolio of Alvinnanda Dary, a skilled Software Engineer specializing in full-stack development, mobile apps, and modern web technologies." />
     <meta name="author" content="Alvinnanda Dary" />
@@ -10,7 +11,7 @@
     <meta property="og:title" content="Alvinnanda Dary - Software Engineer Portfolio" />
     <meta property="og:description" content="Portfolio of Alvinnanda Dary, a skilled Software Engineer specializing in full-stack development, mobile apps, and modern web technologies." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://takonai-zeta.vercel.app/images/takonai-logo.png" />
+    <meta property="og:image" content="/favicon.webp" />
 
     <!-- <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Lovable" />
@@ -18,7 +19,39 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        .initial-loader {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          width: 100vw;
+          background-color: #ffffff;
+          font-family: sans-serif;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999;
+          transition: opacity 0.5s ease-out;
+        }
+        .spinner {
+          width: 50px;
+          height: 50px;
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #643B1C; /* Primary Brown */
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      </style>
+      <div class="initial-loader">
+        <div class="spinner"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

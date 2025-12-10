@@ -25,7 +25,7 @@ const CHARACTER_CONFIG = {
   INITIAL_POSITION_Y: 600, // fixed pixels from top
   SIZE: 320, // pixels
   OPACITY: 1,
-  MOVEMENT_THRESHOLD: 2, // pixels to avoid jitter
+  MOVEMENT_THRESHOLD: 4, // pixels to avoid jitter
   IDLE_TIMEOUT: 150, // milliseconds before returning to front view
   SMOOTH_DURATION: 0.15, // GSAP animation duration for smooth following
   THROTTLE_DELAY: 20, // ms (~50fps) - Lower value = less delay
