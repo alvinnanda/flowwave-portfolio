@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import profileImage from "@/assets/profile.png";
+import profileImage from "@/assets/profile.webp";
 import { ChevronDown } from "lucide-react";
 
 // ============================================================================
@@ -158,6 +158,17 @@ export default function Hero() {
     // Recalculate on resize
     window.addEventListener('resize', calculateStageDimensions);
     return () => window.removeEventListener('resize', calculateStageDimensions);
+  }, []);
+
+  // ============================================================================
+  // EFFECTS - Preload Images
+  // ============================================================================
+  useEffect(() => {
+    // Preload character images
+    Object.values(CHARACTER_CONFIG.IMAGES).forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
   }, []);
 
   // ============================================================================
@@ -404,6 +415,8 @@ export default function Hero() {
         <img 
           src="/background-hero.webp" 
           alt="Hero Background"
+          // @ts-ignore - fetchPriority is standard but types might lag
+          fetchPriority="high"
           className="w-full h-full object-cover pointer-events-none"
           style={{
             borderRadius: '0px 0px 4px 4px'
