@@ -133,12 +133,21 @@ export default function Hero() {
     const TARGET_RATIO = TARGET_WIDTH / TARGET_HEIGHT;
     
     const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    const windowRatio = windowWidth / windowHeight;
+    let windowHeight = window.innerHeight;
+
+    // Use screen height in portrait mode to prevent resize when address bar shows/hides
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile && windowWidth / windowHeight < TARGET_RATIO) {
+      if (window.screen && window.screen.height > windowHeight) {
+        windowHeight = window.screen.height;
+      }
+    }
 
     let width, height;
 
-    if (windowRatio > TARGET_RATIO) {
+    // Recalculate ratio with potentially updated windowHeight
+    if (windowWidth / windowHeight > TARGET_RATIO) {
       width = windowWidth;
       height = windowWidth / TARGET_RATIO;
     } else {
