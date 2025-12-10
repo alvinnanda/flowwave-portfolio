@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Briefcase } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,29 +9,48 @@ const experiences = [
     role: "Project Lead",
     company: "bosonline.id",
     period: "2025 - Present",
-    description: "As the Project Lead at bosOnline, I led the end-to-end development of a high-conversion online ordering platform, driving key features such as multi-form checkout, order management, BOSCOD API integrations, payment processing, and seller dashboards. I provided clear technical direction, prioritized technical debt and feature delivery, and ensured a seamless, reliable experience for thousands of sellers. This resulted in improved product quality, faster onboarding and verification flows, and enhanced analytics that support sellers in tracking and growing their business.",
-    achievements: [],
+    description: "Leading the end-to-end development of a high-conversion online ordering platform.",
+    achievements: [
+      "Driving key features such as multi-form checkout, order management, and BOSCOD API integrations.",
+      "Leading payment processing integration and seller dashboard development.",
+      "Providing technical direction and prioritizing technical debt and feature delivery.",
+      "Ensuring a seamless experience for thousands of sellers, improving faster onboarding flows.",
+      "Enhanced analytics that support sellers in tracking and growing their business.",
+    ],
   },
   {
     role: "Full Stack Developer",
     company: "bosCOD.com",
     period: "2021 - Present",
-    description: "At Boscod, I ensured smooth integration with various courier APIs, enabling real-time tracking and automatic status updates for deliveries. I developed an intuitive and optimized Android application tailored to the needs of a large user base, while also selecting and testing software tools to ensure development efficiency and quality. Additionally, managed PPOB systems for seamless payment processing, resolved technical issues during API integration and application development, and actively collaborated with cross-functional teams to analyze user needs, design technical solutions, and ensure the application's usability. I also utilized Agile/Scrum methodologies and tools like Jira to manage project workflows effectively and maintain development efficiency.",
-    achievements: [],
+    description: "Developing and optimizing core systems for delivery, tracking and internal operations.",
+    achievements: [
+      "Ensured smooth integration with various courier APIs for real-time tracking.",
+      "Developed an intuitive and optimized Android application for a large user base.",
+      "Managed PPOB systems for seamless payment processing.",
+      "Collaborated with cross-functional teams to analyze user needs and design technical solutions.",
+      "Utilized Agile/Scrum methodologies and Jira for effective project workflow.",
+    ],
   },
   {
     role: "Training Program",
     company: "DTS Kominfo - Intro to Full Stack Developer",
     period: "2020 - 2021",
-    description: "I completed a training program in Full Stack Development, covering web technologies such as HTML & CSS, JavaScript, SQL, Node.js, and Python, gaining a solid foundation in building web applications.",
-    achievements: [],
+    description: "Intensive training program covering modern web development technologies.",
+    achievements: [
+      "Mastered HTML, CSS, JavaScript, and SQL foundations.",
+      "Built web applications using Node.js and Python.",
+      "Gained practical experience in full-stack development workflows.",
+    ],
   },
   {
     role: "Software Engineering Intern",
-    company: "PT. Kereta Api Indonesia (Persero) Upt. Pengusahaan Aset Madura",
+    company: "PT. Kereta Api Indonesia (Persero)",
     period: "Apr 2019 - Mei 2019",
-    description: "Developed an Android application for internal company asset management in the Madura region.",
-    achievements: [],
+    description: "Internship focused on internal asset management systems.",
+    achievements: [
+      "Developed an Android application for asset management in the Madura region.",
+      "Assisted in digitalizing manual asset tracking processes.",
+    ],
   },
 ];
 
@@ -143,12 +161,12 @@ export default function Experience() {
           />
 
           {/* Timeline Items */}
-          <div className="space-y-12 md:space-y-24">
+          <div className="space-y-8 md:space-y-0 relative">
             {experiences.map((exp, index) => (
               <div
                 key={index}
                 className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-0 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
+                  } ${index !== 0 ? "md:-mt-32" : ""}`}
               >
                 {/* Card Side */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pl-0" : ""} md:px-12`}>
