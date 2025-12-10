@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { lenis } from "@/components/SmoothScroll";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -49,15 +50,21 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
   const scrollToSection = (href: string) => {
     const targetId = href.replace("#", "");
     const target = document.getElementById(targetId);
     if (target) {
-      gsap.to(window, {
-        duration: 0.1,
-        scrollTo: { y: target, offsetY: 80 },
-        ease: "power3.inOut",
-      });
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -80, duration: 1.5 });
+      } else {
+        // Fallback if Lenis is not yet initialized
+        gsap.to(window, {
+          duration: 1,
+          scrollTo: { y: target, offsetY: 80 },
+          ease: "power3.inOut",
+        });
+      }
       setIsMobileMenuOpen(false); // Close mobile menu after navigation
     }
   };

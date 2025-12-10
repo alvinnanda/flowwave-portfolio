@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 // Lazy load komponen yang tidak terlihat di awal (below the fold)
 const Skills = lazy(() => import("@/components/Skills"));
@@ -18,27 +19,29 @@ const SectionLoader = () => (
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <Hero />
+    <SmoothScroll>
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          <Hero />
+          <Suspense fallback={<SectionLoader />}>
+            <Experience />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Skills />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Projects />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Contact />
+          </Suspense>
+        </main>
         <Suspense fallback={<SectionLoader />}>
-          <Experience />
+          <Footer />
         </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Skills />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Projects />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Contact />
-        </Suspense>
-      </main>
-      <Suspense fallback={<SectionLoader />}>
-        <Footer />
-      </Suspense>
-    </div>
+      </div>
+    </SmoothScroll>
   );
 };
 

@@ -128,8 +128,8 @@ All colors MUST be HSL.
   }
 
   /* Smooth scroll */
-  html {
+  /* html {
     scroll-behavior: smooth;
-  }
+  } */
 }
 
