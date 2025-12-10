@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import profileImage from "@/assets/profile.webp";
+import profileBlur from "@/assets/profile-blur.png";
 import { ChevronDown } from "lucide-react";
 
 // ============================================================================
@@ -120,6 +121,8 @@ export default function Hero() {
   const [isCharacterVisible, setIsCharacterVisible] = useState<boolean>(false);
   const [isCharacterInitialized, setIsCharacterInitialized] = useState<boolean>(false);
   const [isHeroVisible, setIsHeroVisible] = useState<boolean>(true);
+  const [isBgLoaded, setIsBgLoaded] = useState(false);
+  const [isProfileLoaded, setIsProfileLoaded] = useState(false);
   
   // Stage dimensions state
   const [stageDimensions, setStageDimensions] = useState({ width: 0, height: 0 });
@@ -411,13 +414,28 @@ export default function Hero() {
           pointerEvents: 'none' // Allow clicks to pass through to objects if needed, but objects have pointer-events-auto
         }}
       >
-        {/* Background Image */}
+        {/* Background Image Placeholder */}
+        <img 
+          src="/background-hero-small.png"
+          alt=""
+          className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 blur-md ${
+            isBgLoaded ? "opacity-0" : "opacity-100"
+          }`}
+          style={{
+            borderRadius: '0px 0px 4px 4px'
+          }}
+        />
+
+        {/* Background Image High Res */}
         <img 
           src="/background-hero.webp" 
           alt="Hero Background"
-          // @ts-ignore - fetchPriority is standard but types might lag
+          // @ts-ignore
           fetchPriority="high"
-          className="w-full h-full object-cover pointer-events-none"
+          onLoad={() => setIsBgLoaded(true)}
+          className={`w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
+            isBgLoaded ? "opacity-100" : "opacity-0"
+          }`}
           style={{
             borderRadius: '0px 0px 4px 4px'
           }}
@@ -593,11 +611,25 @@ export default function Hero() {
                     className="relative w-24 h-24 md:w-48 md:h-48 lg:w-64 lg:h-64"
                   >
                     <div className="absolute inset-0 bg-gradient-pink rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                    <img
-                      src={profileImage}
-                      alt="Alvinnanda Dary"
-                      className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-2xl"
-                    />
+                    <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-2xl">
+                      {/* Blurred Placeholder */}
+                      <img
+                        src={profileBlur}
+                        alt=""
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 blur-sm ${
+                          isProfileLoaded ? "opacity-0" : "opacity-100"
+                        }`}
+                      />
+                      {/* High-res Image */}
+                      <img
+                        src={profileImage}
+                        alt="Alvinnanda Dary"
+                        onLoad={() => setIsProfileLoaded(true)}
+                        className={`relative w-full h-full object-cover transition-opacity duration-700 ${
+                          isProfileLoaded ? "opacity-100" : "opacity-0"
+                        }`}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
