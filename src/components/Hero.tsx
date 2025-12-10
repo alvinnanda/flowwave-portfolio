@@ -124,43 +124,45 @@ export default function Hero() {
   const [isBgLoaded, setIsBgLoaded] = useState(false);
   const [isProfileLoaded, setIsProfileLoaded] = useState(false);
   
-  // Stage dimensions state
-  const [stageDimensions, setStageDimensions] = useState({ width: 0, height: 0 });
+  // Helper function to calculate dimensions
+  const getStageDimensions = () => {
+    if (typeof window === 'undefined') return { width: 0, height: 0 };
+    
+    const TARGET_WIDTH = 1440;
+    const TARGET_HEIGHT = 1024;
+    const TARGET_RATIO = TARGET_WIDTH / TARGET_HEIGHT;
+    
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const windowRatio = windowWidth / windowHeight;
+
+    let width, height;
+
+    if (windowRatio > TARGET_RATIO) {
+      width = windowWidth;
+      height = windowWidth / TARGET_RATIO;
+    } else {
+      height = windowHeight;
+      width = windowHeight * TARGET_RATIO;
+    }
+
+    return { width, height };
+  };
+
+  // Stage dimensions state - Initialize immediately to prevent CLS
+  const [stageDimensions, setStageDimensions] = useState(getStageDimensions);
 
   // ============================================================================
   // EFFECTS - Stage Dimensions Calculation
   // ============================================================================
   useEffect(() => {
-    const calculateStageDimensions = () => {
-      const TARGET_WIDTH = 1440;
-      const TARGET_HEIGHT = 1024;
-      const TARGET_RATIO = TARGET_WIDTH / TARGET_HEIGHT;
-      
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      const windowRatio = windowWidth / windowHeight;
-
-      let width, height;
-
-      // If window is wider than target ratio (relative to height), fit to width
-      // Actually we want "cover" behavior, so we take the larger dimension
-      if (windowRatio > TARGET_RATIO) {
-        width = windowWidth;
-        height = windowWidth / TARGET_RATIO;
-      } else {
-        height = windowHeight;
-        width = windowHeight * TARGET_RATIO;
-      }
-
-      setStageDimensions({ width, height });
+    const handleResize = () => {
+      setStageDimensions(getStageDimensions());
     };
 
-    // Initial calculation
-    calculateStageDimensions();
-
     // Recalculate on resize
-    window.addEventListener('resize', calculateStageDimensions);
-    return () => window.removeEventListener('resize', calculateStageDimensions);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // ============================================================================
