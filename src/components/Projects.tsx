@@ -8,6 +8,7 @@ import bosAgen from "@/assets/bosAgen.png";
 import takonAI from "@/assets/takonAI.png";
 import dkpSystem from "@/assets/dkpSystem.png";
 import sipakdeSystem from "@/assets/sipakdeSystem.png";
+import responsewatch from "@/assets/responsewatch.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,6 +40,13 @@ const projects = [
     tech: ["Next.js", "Nest.js", "OpenAI", "Anthropic"],
     image: takonAI,
     link: "https://takonai-zeta.vercel.app"
+  },
+  {
+    name: "ResponseWatch",
+    description: "ResponseWatch is a simple & real-time vendor job tracking application. It transforms manual processes like WhatsApp or email chats into a neat dashboard, without forcing vendors to download an app or create an account. Users can easily create requests, share SmartLinks, and track progress real-time.",
+    tech: ["TanStack Start", "TailwindCSS", "Firebase", "Golang"],
+    image: responsewatch,
+    link: "https://response-watch.web.app"
   },
   {
     name: "DKP System",
