@@ -57,8 +57,6 @@ const experiences = [
 export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -82,8 +80,8 @@ export default function Experience() {
         );
       }
 
-      // Animate dots with stagger
-      const validDots = dotsRef.current.filter(dot => dot !== null);
+      // Select dots using scopes strings
+      const validDots = gsap.utils.toArray<HTMLElement>('.experience-dot');
       if (validDots.length > 0) {
         gsap.fromTo(validDots,
           {
@@ -104,26 +102,25 @@ export default function Experience() {
       }
 
       // Animate cards alternating from left/right
-      cardsRef.current.forEach((card, index) => {
-        if (card) {
-          gsap.fromTo(card,
-            {
-              opacity: 0,
-              x: index % 2 === 0 ? -100 : 100,
+      const cards = gsap.utils.toArray<HTMLElement>('.experience-card');
+      cards.forEach((card, index) => {
+        gsap.fromTo(card,
+          {
+            opacity: 0,
+            x: index % 2 === 0 ? -100 : 100,
+          },
+          {
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
             },
-            {
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-              opacity: 1,
-              x: 0,
-              duration: 0.8,
-              ease: "power3.out",
-            }
-          );
-        }
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          }
+        );
       });
     }, sectionRef);
 
@@ -170,10 +167,7 @@ export default function Experience() {
               >
                 {/* Card Side */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pl-0" : ""} md:px-12`}>
-                  <div
-                    ref={(el) => (cardsRef.current[index] = el)}
-                    className="relative group perspective-1000"
-                  >
+                  <div className="experience-card relative group perspective-1000">
                     {/* Gradient Glow Effect */}
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-blue-500/20 rounded-2xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
 
@@ -210,10 +204,7 @@ export default function Experience() {
 
                 {/* Center Dot */}
                 <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center justify-center w-8 h-8 z-20">
-                  <div
-                    ref={(el) => (dotsRef.current[index] = el)}
-                    className="w-4 h-4 bg-background rounded-full border-4 border-primary shadow-[0_0_15px_rgba(var(--primary),0.5)] relative"
-                  >
+                  <div className="experience-dot w-4 h-4 bg-background rounded-full border-4 border-primary shadow-[0_0_15px_rgba(var(--primary),0.5)] relative">
                     <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-20"></div>
                   </div>
                 </div>
