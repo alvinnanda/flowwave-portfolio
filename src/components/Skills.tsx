@@ -164,75 +164,77 @@ export default function Skills() {
 
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="relative bg-background md:h-screen md:overflow-hidden flex flex-col justify-center py-10 md:py-0"
-    >
-        {/* Header Section */}
-        <div ref={headerRef} className="container mx-auto px-4 mb-12 md:mb-16 z-10 shrink-0 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            <span className="gradient-text">My Expertise</span>
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-             Exploring the technologies that power modern applications.
-          </p>
-        </div>
+    <div id="skills">
+      <section 
+        ref={sectionRef} 
+        className="relative bg-background md:h-screen md:overflow-hidden flex flex-col justify-center py-10 md:py-0"
+      >
+          {/* Header Section */}
+          <div ref={headerRef} className="container mx-auto px-4 mb-12 md:mb-16 z-10 shrink-0 text-center">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <span className="gradient-text">My Expertise</span>
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+               Exploring the technologies that power modern applications.
+            </p>
+          </div>
 
-        {/* Scroll Container */}
-        <div 
-          ref={containerRef} 
-          className="
-            flex items-center
-            flex-col w-full gap-8
-            md:flex-row md:w-fit md:gap-10 md:px-10 md:pl-[30vw]
-          "
-        >
-          {skillsData.map((item, index) => (
-            <div
-              key={index}
-              className={`
-                skill-card relative flex-shrink-0 
-                w-full max-w-[320px] h-[450px]
-                md:w-[450px] md:h-[500px]
-                group perspective-1000
-              `}
-            >
-              {/* Gradient Glow Effect */}
-              <div className={`absolute -inset-0.5 bg-gradient-to-br ${item.color} rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500`}></div>
+          {/* Scroll Container */}
+          <div 
+            ref={containerRef} 
+            className="
+              flex items-center
+              flex-col w-full gap-8
+              md:flex-row md:w-fit md:gap-10 md:px-10 md:pl-[30vw]
+            "
+          >
+            {skillsData.map((item, index) => (
+              <div
+                key={index}
+                className={`
+                  skill-card relative flex-shrink-0 
+                  w-full max-w-[320px] h-[450px]
+                  md:w-[450px] md:h-[500px]
+                  group perspective-1000
+                `}
+              >
+                {/* Gradient Glow Effect */}
+                <div className={`absolute -inset-0.5 bg-gradient-to-br ${item.color} rounded-3xl blur opacity-20 group-hover:opacity-60 transition duration-500`}></div>
 
-              {/* Card Body */}
-              <div className="relative h-full flex flex-col p-8 glass-card rounded-3xl bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                <div>
-                  <div className={`w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${item.color} bg-opacity-10 flex items-center justify-center mb-6 backdrop-blur-md`}>
-                     <item.icon 
-                        className="text-foreground w-10 h-10 md:w-12 md:h-12" 
-                        strokeWidth={1.5}
-                     />
+                {/* Card Body */}
+                <div className="relative h-full flex flex-col p-8 glass-card rounded-3xl bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                  <div>
+                    <div className={`w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${item.color} bg-opacity-10 flex items-center justify-center mb-6 backdrop-blur-md`}>
+                       <item.icon 
+                          className="text-foreground w-10 h-10 md:w-12 md:h-12" 
+                          strokeWidth={1.5}
+                       />
+                    </div>
+                    <h3 className="text-3xl font-bold gradient-text mb-3">
+                      {item.category}
+                    </h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="text-3xl font-bold gradient-text mb-3">
-                    {item.category}
-                  </h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
 
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {item.skills.map((skill, i) => (
-                    <span
-                      key={i}
-                      className="px-4 py-2 bg-secondary/50 hover:bg-secondary/80 backdrop-blur-md rounded-full text-foreground/80 text-sm font-medium border border-border/50 transition-colors"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {item.skills.map((skill, i) => (
+                      <span
+                        key={i}
+                        className="px-4 py-2 bg-secondary/50 hover:bg-secondary/80 backdrop-blur-md rounded-full text-foreground/80 text-sm font-medium border border-border/50 transition-colors"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {/* Spacer */}
-          <div className="hidden md:block w-[5vw] shrink-0" />
-        </div>
-    </section>
+            ))}
+            {/* Spacer */}
+            <div className="hidden md:block w-[5vw] shrink-0" />
+          </div>
+      </section>
+    </div>
   );
 }
