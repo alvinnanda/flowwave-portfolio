@@ -194,41 +194,7 @@ export default function Hero() {
 
       // Title animation with split text effect
       if (titleRef.current) {
-        const textNodes: { node: Node; parent: HTMLElement }[] = [];
-
-        const collectTextNodes = (element: Node) => {
-          for (let i = 0; i < element.childNodes.length; i++) {
-            const node = element.childNodes[i];
-            if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
-              textNodes.push({
-                node,
-                parent: element as HTMLElement
-              });
-            } else if (node.nodeType === Node.ELEMENT_NODE) {
-              collectTextNodes(node);
-            }
-          }
-        };
-
-        collectTextNodes(titleRef.current);
-
-        const allSpans: HTMLElement[] = [];
-
-        textNodes.forEach(({ node, parent }) => {
-          const text = node.textContent || '';
-          const fragment = document.createDocumentFragment();
-
-          text.split('').forEach((char) => {
-            const span = document.createElement('span');
-            span.className = 'inline-block';
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            fragment.appendChild(span);
-            allSpans.push(span);
-          });
-
-          parent.replaceChild(fragment, node);
-        });
-
+        const allSpans = titleRef.current.querySelectorAll('span.inline-block');
         if (allSpans.length > 0) {
           tl.from(allSpans, {
             opacity: 0,
@@ -654,8 +620,16 @@ export default function Hero() {
                   ref={titleRef}
                   className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight text-muted-foreground"
                 >
-                  <span className="text-foreground">Hi, I'm</span>{" "}
-                  <span className="text-muted-foreground">Alvinnanda</span>
+                  <span className="text-foreground">
+                    {"Hi, I'm".split('').map((char, i) => (
+                      <span key={`h-${i}`} className="inline-block">{char === ' ' ? '\u00A0' : char}</span>
+                    ))}
+                  </span>{" "}
+                  <span className="text-muted-foreground">
+                    {"Alvinnanda".split('').map((char, i) => (
+                      <span key={`a-${i}`} className="inline-block">{char === ' ' ? '\u00A0' : char}</span>
+                    ))}
+                  </span>
                 </h1>
 
                 <p
