@@ -453,7 +453,7 @@ export default function Hero() {
           src="/background-hero.webp" 
           alt="Hero Background"
           // @ts-ignore
-          fetchPriority="high"
+          fetchpriority="high"
           onLoad={() => setIsBgLoaded(true)}
           className={`w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
             isBgLoaded ? "opacity-100" : "opacity-0"
