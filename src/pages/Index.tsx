@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Lazy load komponen yang tidak terlihat di awal (below the fold)
 const Skills = lazy(() => import("@/components/Skills"));
@@ -23,23 +24,40 @@ const Index = () => {
       <div className="min-h-screen">
         <Header />
         <main>
-          <Hero />
-          <Suspense fallback={<SectionLoader />}>
-            <Experience />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Skills />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Projects />
-          </Suspense>
-          <Suspense fallback={<SectionLoader />}>
-            <Contact />
-          </Suspense>
+          <ErrorBoundary sectionName="Hero">
+            <Hero />
+          </ErrorBoundary>
+          
+          <ErrorBoundary sectionName="Experience">
+            <Suspense fallback={<SectionLoader />}>
+              <Experience />
+            </Suspense>
+          </ErrorBoundary>
+          
+          <ErrorBoundary sectionName="Skills">
+            <Suspense fallback={<SectionLoader />}>
+              <Skills />
+            </Suspense>
+          </ErrorBoundary>
+          
+          <ErrorBoundary sectionName="Projects">
+            <Suspense fallback={<SectionLoader />}>
+              <Projects />
+            </Suspense>
+          </ErrorBoundary>
+          
+          <ErrorBoundary sectionName="Contact">
+            <Suspense fallback={<SectionLoader />}>
+              <Contact />
+            </Suspense>
+          </ErrorBoundary>
         </main>
-        <Suspense fallback={<SectionLoader />}>
-          <Footer />
-        </Suspense>
+        
+        <ErrorBoundary sectionName="Footer">
+          <Suspense fallback={<SectionLoader />}>
+            <Footer />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </SmoothScroll>
   );
