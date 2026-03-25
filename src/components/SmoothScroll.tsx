@@ -20,19 +20,18 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     lenis.on("scroll", ScrollTrigger.update);
 
     // Add Lenis's requestAnimationFrame to GSAP's ticker for smoother animation sync
-    gsap.ticker.add((time) => {
+    const raf = (time: number) => {
       lenis?.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(raf);
 
     // Disable GSAP's lag smoothing to prevent stuttering
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(raf);
       lenis?.destroy();
       lenis = null;
-      gsap.ticker.remove((time) => {
-        lenis?.raf(time * 1000);
-      });
     };
   }, []);
 
